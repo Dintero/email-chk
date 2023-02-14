@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "thoralf@dintero.com",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "private": true,
   "jest": {
     "preset": "ts-jest",
