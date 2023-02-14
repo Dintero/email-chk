@@ -7,6 +7,7 @@
   "author": "Thoralf Thelle <thoralf@dintero.com>",
   "license": "MIT",
   "private": false,
+  "files": ["/dist"],
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
