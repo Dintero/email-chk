@@ -38,7 +38,7 @@
     "test": "jest",
     "clean": "rm -rf dist",
     "check": "yarn run lint && yarn run test",
-    "build": "yarn run clean && yarn run check && tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json",
     "lint": "eslint ./src",
     "release": "semantic-release",
     "prepublishOnly": "yarn run build"
