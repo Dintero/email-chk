@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "author": "thoralf@dintero.com",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
