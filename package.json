@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "author": "thoralf@dintero.com",
+  "author": "Thoralf Thelle <thoralf@dintero.com>",
   "license": "MIT",
   "private": false,
   "jest": {
@@ -42,5 +42,9 @@
     "lint": "eslint ./src",
     "release": "semantic-release",
     "prepublishOnly": "yarn run build"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
