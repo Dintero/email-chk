@@ -2161,8 +2161,9 @@ escape-string-regexp@^4.0.0:
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
 "eslint-config-dintero@https://github.com/Dintero/eslint-config-dintero":
-  version "1.1.0"
-  resolved "https://github.com/Dintero/eslint-config-dintero#37b55458c9f1710f2963b6abcd8a6722c34ea883"
+  version "1.1.1"
+  uid cf259e28ac6ca2f4e2468d8be5b906d965435c10
+  resolved "https://github.com/Dintero/eslint-config-dintero#cf259e28ac6ca2f4e2468d8be5b906d965435c10"
 
 eslint-scope@^5.1.1:
   version "5.1.1"
