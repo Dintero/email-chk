@@ -2,12 +2,24 @@
   "name": "@dintero/email-chk",
   "version": "0.0.0-development",
   "description": "",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js",
+      "default": "./lib/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "lib/cjs/index.js",
+  "types": "lib/types/index.d.ts",
   "author": "Thoralf Thelle <thoralf@dintero.com>",
   "license": "MIT",
   "private": false,
-  "files": ["/dist"],
+  "files": [
+    "lib"
+  ],
+  "sideEffects": "false",
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
@@ -37,9 +49,11 @@
   },
   "scripts": {
     "test": "jest",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf ./lib",
     "check": "yarn run lint && yarn run test",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "yarn run clean && yarn run build:esm && yarn run build:cjs",
+    "build:esm": "tsc -p ./tsconfig.esm.json",
+    "build:cjs": "tsc -p ./tsconfig.cjs.json",
     "lint": "eslint ./src",
     "release": "semantic-release",
     "prepublishOnly": "yarn run build"
