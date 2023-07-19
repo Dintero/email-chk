@@ -4,6 +4,7 @@
         "target": "ES3",
         "module": "CommonJS",
         "outDir": "./lib/cjs",
+
     },
     "exclude": [
         "src/__tests__"

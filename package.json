@@ -2,8 +2,16 @@
   "name": "@dintero/email-chk",
   "version": "0.0.0-development",
   "description": "",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js",
+      "default": "./lib/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",
   "author": "Thoralf Thelle <thoralf@dintero.com>",
   "license": "MIT",
@@ -44,8 +52,8 @@
     "clean": "rm -rf ./lib",
     "check": "yarn run lint && yarn run test",
     "build": "yarn run clean && yarn run build:esm && yarn run build:cjs",
-    "build:esm": "tsc -p ./tsconfig.esm.json && echo '{ \"type\": \"module\" }' > ./lib/esm/package.json",
-    "build:cjs": "tsc -p ./tsconfig.cjs.json && echo '{ \"type\": \"commonjs\" }' > ./lib/cjs/package.json",
+    "build:esm": "tsc -p ./tsconfig.esm.json",
+    "build:cjs": "tsc -p ./tsconfig.cjs.json",
     "lint": "eslint ./src",
     "release": "semantic-release",
     "prepublishOnly": "yarn run build"
