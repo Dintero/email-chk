@@ -24,6 +24,8 @@ describe(EmailChk, () => {
         expect(emailChk('test@gmael.com')).toBe('test@gmail.com');
         expect(emailChk('test@gmaild.com')).toBe('test@gmail.com');
         expect(emailChk('test@ggmail.com')).toBe('test@gmail.com');
+        expect(emailChk('something@gmail.comk')).toBe('something@gmail.com');
+        expect(emailChk('something@gamil.com')).toBe('something@gmail.com');
     });
 
     it('should suggest hotmail when any hotmail typo is inputted', () => {
@@ -90,6 +92,7 @@ describe(EmailChk, () => {
         expect(emailChk('test@onlin.no')).toBe('test@online.no');
         expect(emailChk('test@onlive.nm')).toBe('test@online.no');
         expect(emailChk('test@onlien.nio')).toBe('test@online.no');
+        expect(emailChk('test@onlie.no')).toBe('test@online.no');
     });
 
     it('should make use of only set config', () => {
@@ -111,5 +114,15 @@ describe(EmailChk, () => {
         expect(emailChk('test@diner.com', {
             website: 'https://www.dintero.com',
         })).toBe('test@dintero.com');
+    });
+
+    it('should use tlds when validating email', () => {
+        const emailChk = EmailChk();
+        expect(emailChk('test@skola.goteborg')).toBe('test@skola.com');
+        expect(emailChk('test@skola.se')).toBe('');
+        expect(emailChk('test@gmail.se')).toBe('test@gmail.com');
+        expect(emailChk('test@dintero.co.uk')).toBe('test@dintero.dk');
+        expect(emailChk('test@netto.finland')).toBe('test@netto.fi');
+        expect(emailChk('test@checkout.dintero')).toBe('test@checkout.no');
     });
 });

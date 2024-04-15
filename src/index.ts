@@ -1,4 +1,4 @@
-import { getDomain, levenstein } from './utils';
+import { closestMatchTLD, getDomain, getTLD, levenstein, validateTLD } from './utils';
 
 /**
  * @typedef {string} EmailDomain
@@ -8,12 +8,14 @@ export type EmailDomain = string;
 /**
  * @typedef {Object} EmailChkConfig
  * @property {EmailDomain[]} [domains] - List of email domains to check against
+ * @property {string[]} [tlds] - List of top level domains to check against
  * @property {number} [levensteinThreshold] - Levenstein distance threshold for suggesting a typo
  * Configuration object for the EmailChk producer function
  */
 export type EmailChkConfig = {
     domains?: EmailDomain[]
     levensteinThreshold?: number
+    tlds?: string[]
 }
 /**
  * @typedef {Object} SuggestionMetric
@@ -46,6 +48,14 @@ const defaultConfig = {
         'online.no',
     ],
     levensteinThreshold: 3,
+    tlds: [
+        'com',
+        'no',
+        'se',
+        'dk',
+        'fi',
+        'de',
+    ]
 };
 
 /**
@@ -82,8 +92,17 @@ export const EmailChk = (configuration?: EmailChkConfig) => {
             suggestedDomain: null,
         });
 
-        if (suggestion.suggestedDomain &&  (suggestion.dist < config.levensteinThreshold)) {
+        if (suggestion.suggestedDomain && (suggestion.dist < config.levensteinThreshold)) {
             return `${username}@${suggestion.suggestedDomain}`;
+        }
+
+        const tld = getTLD(domain);
+        if (!tld) {
+            return `${username}@${domain.split('.')[0]}.${config.tlds[0]}`;
+        }
+
+        if (!validateTLD(tld, config.tlds)) {
+            return `${username}@${domain.split('.')[0]}.${closestMatchTLD(tld, config.tlds)}`;
         }
 
         return '';

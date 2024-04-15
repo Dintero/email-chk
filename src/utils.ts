@@ -68,3 +68,29 @@ export const getDomain = (website?: string): string | undefined => {
         throw error;
     }
 };
+
+export const getTLD = (domain?: string): string | undefined => {
+    if (!domain) {
+        return;
+    }
+    try {
+        const parts = domain.split('.');
+        return parts[parts.length - 1];
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const validateTLD = (tld: string, validTlds: string[]): boolean => {
+    return validTlds.indexOf(tld) > -1;
+};
+
+export const closestMatchTLD = (tld: string, validTlds: string[]): string => {
+    return validTlds.reduce<string>((acc, validTld) => {
+        const dist = levenstein(tld, validTld);
+        if (dist < levenstein(acc, tld)) {
+            return validTld;
+        }
+        return acc;
+    }, validTlds[0]);
+};
