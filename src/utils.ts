@@ -75,22 +75,34 @@ export const getTLD = (domain?: string): string | undefined => {
     }
     try {
         const parts = domain.split('.');
-        return parts[parts.length - 1];
+        return [...parts].slice(1).join('.');
     } catch (error) {
         throw error;
     }
 };
 
 export const validateTLD = (tld: string, validTlds: string[]): boolean => {
-    return validTlds.indexOf(tld) > -1;
+    return tld.split('.').reduce<boolean>((acc, tldPart) => {
+        return acc && validTlds.indexOf(tldPart) > -1;
+    }, true);
 };
 
-export const closestMatchTLD = (tld: string, validTlds: string[]): string => {
-    return validTlds.reduce<string>((acc, validTld) => {
-        const dist = levenstein(tld, validTld);
-        if (dist < levenstein(acc, tld)) {
-            return validTld;
-        }
-        return acc;
-    }, validTlds[0]);
+/**
+ * Check if the last part of the domain is missing a TLD
+ * @param email Email address
+ * @param validTlds List of TLDs to check against
+ * @returns Suggested email address with valid TLD if there's missing a TLD
+ */
+export const checkTLD = (email: string, tlds: string[]): string => {
+    const [username, domain] = email.split('@');
+    const tld = getTLD(domain);
+    if (!tld) {
+        return `${username}@${domain.split('.')[0]}.${tlds[0]}`;
+    }
+
+    if (!validateTLD(tld, tlds)) {
+        return `${username}@${domain}.${tlds[0]}`;
+    }
+
+    return '';
 };

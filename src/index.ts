@@ -1,4 +1,4 @@
-import { closestMatchTLD, getDomain, getTLD, levenstein, validateTLD } from './utils';
+import { checkTLD, getDomain, levenstein } from './utils';
 
 /**
  * @typedef {string} EmailDomain
@@ -29,10 +29,12 @@ export type SuggestionMetric = {
 /**
  * @typedef {Object} CheckOptions
  * @property {string} [website] - Website to check against
+ * @property {string[]} [checkMissingTLD] - List of TLDs to check against, enabled if defined
  * Options for the EmailChk consumer function
  */
 export type CheckOptions = {
     website?: string
+    checkMissingTLD?: string[]
 }
 
 
@@ -48,14 +50,6 @@ const defaultConfig = {
         'online.no',
     ],
     levensteinThreshold: 3,
-    tlds: [
-        'com',
-        'no',
-        'se',
-        'dk',
-        'fi',
-        'de',
-    ]
 };
 
 /**
@@ -96,16 +90,12 @@ export const EmailChk = (configuration?: EmailChkConfig) => {
             return `${username}@${suggestion.suggestedDomain}`;
         }
 
-        const tld = getTLD(domain);
-        if (!tld) {
-            return `${username}@${domain.split('.')[0]}.${config.tlds[0]}`;
-        }
-
-        if (!validateTLD(tld, config.tlds)) {
-            return `${username}@${domain.split('.')[0]}.${closestMatchTLD(tld, config.tlds)}`;
+        if (opt && opt.checkMissingTLD) {
+            return checkTLD(email, opt.checkMissingTLD);
         }
 
         return '';
     };
 };
+
 export default EmailChk;

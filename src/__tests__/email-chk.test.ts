@@ -116,13 +116,13 @@ describe(EmailChk, () => {
         })).toBe('test@dintero.com');
     });
 
-    it('should use tlds when validating email', () => {
+    it('should run the checkTLD call when tld list is defined in consumer', () => {
         const emailChk = EmailChk();
-        expect(emailChk('test@skola.goteborg')).toBe('test@skola.com');
-        expect(emailChk('test@skola.se')).toBe('');
-        expect(emailChk('test@gmail.se')).toBe('test@gmail.com');
-        expect(emailChk('test@dintero.co.uk')).toBe('test@dintero.dk');
-        expect(emailChk('test@netto.finland')).toBe('test@netto.fi');
-        expect(emailChk('test@checkout.dintero')).toBe('test@checkout.no');
+        expect(emailChk('test@arbitrary.long.domain', {
+            checkMissingTLD: ['com'],
+        })).toBe('test@arbitrary.long.domain.com');
+        expect(emailChk('test@oslo.kommune', {
+            checkMissingTLD: ['no'],
+        })).toBe('test@oslo.kommune.no');
     });
 });
