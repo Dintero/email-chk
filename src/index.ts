@@ -1,4 +1,4 @@
-import { getDomain, levenstein } from './utils';
+import { checkTLD, getDomain, levenstein } from './utils';
 
 /**
  * @typedef {string} EmailDomain
@@ -8,12 +8,14 @@ export type EmailDomain = string;
 /**
  * @typedef {Object} EmailChkConfig
  * @property {EmailDomain[]} [domains] - List of email domains to check against
+ * @property {string[]} [tlds] - List of top level domains to check against
  * @property {number} [levensteinThreshold] - Levenstein distance threshold for suggesting a typo
  * Configuration object for the EmailChk producer function
  */
 export type EmailChkConfig = {
     domains?: EmailDomain[]
     levensteinThreshold?: number
+    tlds?: string[]
 }
 /**
  * @typedef {Object} SuggestionMetric
@@ -27,10 +29,12 @@ export type SuggestionMetric = {
 /**
  * @typedef {Object} CheckOptions
  * @property {string} [website] - Website to check against
+ * @property {string[]} [checkMissingTLD] - List of TLDs to check against, enabled if defined
  * Options for the EmailChk consumer function
  */
 export type CheckOptions = {
     website?: string
+    checkMissingTLD?: string[]
 }
 
 
@@ -82,11 +86,16 @@ export const EmailChk = (configuration?: EmailChkConfig) => {
             suggestedDomain: null,
         });
 
-        if (suggestion.suggestedDomain &&  (suggestion.dist < config.levensteinThreshold)) {
+        if (suggestion.suggestedDomain && (suggestion.dist < config.levensteinThreshold)) {
             return `${username}@${suggestion.suggestedDomain}`;
+        }
+
+        if (opt && opt.checkMissingTLD) {
+            return checkTLD(email, opt.checkMissingTLD);
         }
 
         return '';
     };
 };
+
 export default EmailChk;

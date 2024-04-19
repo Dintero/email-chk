@@ -24,6 +24,8 @@ describe(EmailChk, () => {
         expect(emailChk('test@gmael.com')).toBe('test@gmail.com');
         expect(emailChk('test@gmaild.com')).toBe('test@gmail.com');
         expect(emailChk('test@ggmail.com')).toBe('test@gmail.com');
+        expect(emailChk('something@gmail.comk')).toBe('something@gmail.com');
+        expect(emailChk('something@gamil.com')).toBe('something@gmail.com');
     });
 
     it('should suggest hotmail when any hotmail typo is inputted', () => {
@@ -90,6 +92,7 @@ describe(EmailChk, () => {
         expect(emailChk('test@onlin.no')).toBe('test@online.no');
         expect(emailChk('test@onlive.nm')).toBe('test@online.no');
         expect(emailChk('test@onlien.nio')).toBe('test@online.no');
+        expect(emailChk('test@onlie.no')).toBe('test@online.no');
     });
 
     it('should make use of only set config', () => {
@@ -111,5 +114,15 @@ describe(EmailChk, () => {
         expect(emailChk('test@diner.com', {
             website: 'https://www.dintero.com',
         })).toBe('test@dintero.com');
+    });
+
+    it('should run the checkTLD call when tld list is defined in consumer', () => {
+        const emailChk = EmailChk();
+        expect(emailChk('test@arbitrary.long.domain', {
+            checkMissingTLD: ['com'],
+        })).toBe('test@arbitrary.long.domain.com');
+        expect(emailChk('test@oslo.kommune', {
+            checkMissingTLD: ['no'],
+        })).toBe('test@oslo.kommune.no');
     });
 });
