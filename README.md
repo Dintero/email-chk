@@ -16,7 +16,6 @@ const result = emailChk(email); // username@gmail.com
 ```
 React:
 ```tsx
-...
 import { EmailChk } from '@dintero/email-chk';
 
 const App = () => {
