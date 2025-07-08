@@ -32,12 +32,12 @@
   },
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",
-    "@types/jest": "^29.4.0",
+    "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "eslint": "^8.34.0",
     "eslint-config-dintero": "https://github.com/Dintero/eslint-config-dintero",
-    "jest": "^29.4.2",
+    "jest": "^30.0.4",
     "semantic-release": "^24.0.0",
     "ts-jest": "^29.0.5",
     "typescript": "5.8.3"
