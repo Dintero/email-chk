@@ -38,7 +38,7 @@
     "eslint": "^8.34.0",
     "eslint-config-dintero": "https://github.com/Dintero/eslint-config-dintero",
     "jest": "^30.0.4",
-    "semantic-release": "^25.0.1",
+    "semantic-release": "25.0.1",
     "ts-jest": "^29.0.5",
     "typescript": "5.9.3"
   },
