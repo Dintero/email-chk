@@ -1,69 +1,58 @@
 {
-  "name": "@dintero/email-chk",
-  "version": "0.0.0-development",
-  "description": "",
-  "exports": {
-    ".": {
-      "types": "./lib/types/index.d.ts",
-      "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/esm/index.js"
+    "name": "@dintero/email-chk",
+    "version": "0.0.0-development",
+    "description": "",
+    "exports": {
+        ".": {
+            "types": "./lib/types/index.d.ts",
+            "import": "./lib/esm/index.js",
+            "require": "./lib/cjs/index.js",
+            "default": "./lib/esm/index.js"
+        },
+        "./package.json": "./package.json"
     },
-    "./package.json": "./package.json"
-  },
-  "main": "lib/cjs/index.js",
-  "types": "lib/types/index.d.ts",
-  "author": "Thoralf Thelle <thoralf@dintero.com>",
-  "license": "MIT",
-  "private": false,
-  "engines": {
-    "node": ">=18.0"
-  },
-  "files": [
-    "lib"
-  ],
-  "sideEffects": "false",
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "testMatch": [
-      "**/__tests__/**/*.test.ts"
-    ]
-  },
-  "devDependencies": {
-    "@semantic-release/git": "^10.0.1",
-    "@types/jest": "^30.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.51.0",
-    "@typescript-eslint/parser": "^5.51.0",
-    "eslint": "^8.34.0",
-    "eslint-config-dintero": "git+https://github.com/Dintero/eslint-config-dintero.git",
-    "jest": "^30.0.4",
-    "semantic-release": "25.0.2",
-    "ts-jest": "^29.0.5",
-    "typescript": "5.9.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Dintero/email-chk.git"
-  },
-  "homepage": "https://github.com/Dintero/email-chk",
-  "bugs": {
-    "url": "https://github.com/Dintero/email-chk/issues"
-  },
-  "scripts": {
-    "test": "jest",
-    "clean": "rm -rf ./lib",
-    "check": "yarn run lint && yarn run test",
-    "build": "yarn run clean && yarn run build:esm && yarn run build:cjs",
-    "build:esm": "tsc -p ./tsconfig.esm.json",
-    "build:cjs": "tsc -p ./tsconfig.cjs.json",
-    "lint": "eslint ./src",
-    "release": "semantic-release",
-    "prepublishOnly": "yarn run build"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
-  "dependencies": {}
+    "main": "lib/cjs/index.js",
+    "types": "lib/types/index.d.ts",
+    "author": "Thoralf Thelle <thoralf@dintero.com>",
+    "license": "MIT",
+    "private": false,
+    "engines": {
+        "node": ">=18.0"
+    },
+    "files": [
+        "lib"
+    ],
+    "sideEffects": "false",
+    "devDependencies": {
+        "@biomejs/biome": "2.3.8",
+        "@semantic-release/git": "10.0.1",
+        "@types/node": "24.10.3",
+        "semantic-release": "25.0.2",
+        "ts-node": "10.9.2",
+        "typescript": "5.9.3"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Dintero/email-chk.git"
+    },
+    "homepage": "https://github.com/Dintero/email-chk",
+    "bugs": {
+        "url": "https://github.com/Dintero/email-chk/issues"
+    },
+    "scripts": {
+        "test": "node --require ts-node/register --test",
+        "clean": "rm -rf ./lib",
+        "check": "yarn run lint && yarn run test",
+        "build": "yarn run clean && yarn run build:esm && yarn run build:cjs",
+        "build:esm": "tsc -p ./tsconfig.esm.json",
+        "build:cjs": "tsc -p ./tsconfig.cjs.json",
+        "lint": "biome check",
+        "release": "semantic-release",
+        "prepublishOnly": "yarn run build"
+    },
+    "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+    },
+    "dependencies": {}
 }
