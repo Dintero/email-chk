@@ -1,6 +1,6 @@
 export const emailRegex = new RegExp(
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    'i'
+    "i",
 );
 
 export const isEmail = (email: string): boolean => {
@@ -18,7 +18,11 @@ export const levenstein = (a: string, b: string): number => {
     if (a.length === 0) return b.length;
     if (b.length === 0) return a.length;
 
-    let tmp, i, j, prev, val;
+    let tmp: string;
+    let i: number;
+    let j: number;
+    let prev: number;
+    let val: number;
 
     if (a.length > b.length) {
         tmp = a;
@@ -37,13 +41,7 @@ export const levenstein = (a: string, b: string): number => {
             if (b[i - 1] === a[j - 1]) {
                 val = row[j - 1];
             } else {
-                val = Math.min(
-                    row[j - 1] + 1,
-                    Math.min(
-                        prev + 1,
-                        row[j] + 1
-                    )
-                );
+                val = Math.min(row[j - 1] + 1, Math.min(prev + 1, row[j] + 1));
             }
             row[j - 1] = prev;
             prev = val;
@@ -58,31 +56,23 @@ export const getDomain = (website?: string): string | undefined => {
     if (!website) {
         return;
     }
-    try {
-        const host = new URL(website).hostname;
-        const parts = host.split('.');
-        const scnd = parts[parts.length - 2];
-        const tld = parts[parts.length - 1].split(':')[0];
-        return `${scnd}.${tld}`;
-    } catch (error) {
-        throw error;
-    }
+    const host = new URL(website).hostname;
+    const parts = host.split(".");
+    const scnd = parts[parts.length - 2];
+    const tld = parts[parts.length - 1].split(":")[0];
+    return `${scnd}.${tld}`;
 };
 
 export const getTLD = (domain?: string): string | undefined => {
     if (!domain) {
         return;
     }
-    try {
-        const parts = domain.split('.');
-        return [...parts].slice(1).join('.');
-    } catch (error) {
-        throw error;
-    }
+    const parts = domain.split(".");
+    return [...parts].slice(1).join(".");
 };
 
 export const validateTLD = (tld: string, validTlds: string[]): boolean => {
-    return tld.split('.').reduce<boolean>((acc, tldPart) => {
+    return tld.split(".").reduce<boolean>((acc, tldPart) => {
         return acc && validTlds.indexOf(tldPart) > -1;
     }, true);
 };
@@ -94,15 +84,15 @@ export const validateTLD = (tld: string, validTlds: string[]): boolean => {
  * @returns Suggested email address with valid TLD if there's missing a TLD
  */
 export const checkTLD = (email: string, tlds: string[]): string => {
-    const [username, domain] = email.split('@');
+    const [username, domain] = email.split("@");
     const tld = getTLD(domain);
     if (!tld) {
-        return `${username}@${domain.split('.')[0]}.${tlds[0]}`;
+        return `${username}@${domain.split(".")[0]}.${tlds[0]}`;
     }
 
     if (!validateTLD(tld, tlds)) {
         return `${username}@${domain}.${tlds[0]}`;
     }
 
-    return '';
+    return "";
 };

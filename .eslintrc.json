@@ -1,5 +1,3 @@
 {
-    "extends": [
-        "dintero/typescript"
-    ]
+    "extends": ["dintero/typescript"]
 }

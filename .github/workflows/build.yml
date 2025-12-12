@@ -17,5 +17,5 @@ jobs:
         run: |
           yarn install
           yarn run build
-          yarn run test
+          yarn run test --experimental-test-coverage
           yarn run lint
