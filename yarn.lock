@@ -627,10 +627,10 @@
     "@tufjs/canonical-json" "2.0.0"
     minimatch "^9.0.5"
 
-"@types/node@24.10.3":
-  version "24.10.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.10.3.tgz#e0bde7b6bfa2342e88bf158d177dc110e608520e"
-  integrity sha512-gqkrWUsS8hcm0r44yn7/xZeV1ERva/nLgrLxFRUGb7aoNMIJfZJ3AC261zDQuOAKC7MiXai1WCpYc48jAHoShQ==
+"@types/node@24.10.7":
+  version "24.10.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.10.7.tgz#516502e408f6d00afd230f291bfe3ad38105a73e"
+  integrity sha512-+054pVMzVTmRQV8BhpGv3UyfZ2Llgl8rdpDTon+cUH9+na0ncBVXj3wTUKh14+Kiz18ziM3b4ikpP5/Pc0rQEQ==
   dependencies:
     undici-types "~7.16.0"
 
