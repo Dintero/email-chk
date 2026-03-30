@@ -6,7 +6,6 @@
         /* Emit */
         "declaration": true,
         "inlineSourceMap": true,
-        "downlevelIteration": true,
         "declarationDir": "./lib/types",
 
         /* Interop Constraints */
@@ -25,7 +24,9 @@
         "useUnknownInCatchVariables": true,
         "alwaysStrict": true,
         "noUnusedLocals": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "rootDir": "src",
+        "types": ["node"]
     },
     "include": ["src"]
 }
