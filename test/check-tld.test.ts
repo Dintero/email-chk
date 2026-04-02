@@ -20,4 +20,49 @@ describe(checkTLD.name, () => {
             "test@oslo.kommune.com",
         );
     });
+
+    test("should correctly handle multi-part TLDs", () => {
+        const tlds = ["co.uk", "com.au", "org.uk", "com"];
+
+        // Valid multi-part TLD → no suggestion
+        assert.equal(checkTLD("test@bbc.co.uk", tlds), "");
+        assert.equal(checkTLD("test@example.com.au", tlds), "");
+        assert.equal(checkTLD("test@example.org.uk", tlds), "");
+
+        // Valid single-part TLD in the same list → no suggestion
+        assert.equal(checkTLD("test@gmail.com", tlds), "");
+
+        // Partial leading segment → replace with full multi-part TLD
+        assert.equal(
+            checkTLD("test@person.co", ["co.uk"]),
+            "test@person.co.uk",
+        );
+        assert.equal(
+            checkTLD("test@example.com", ["com.au"]),
+            "test@example.com.au",
+        );
+        assert.equal(
+            checkTLD("test@example.org", ["org.uk"]),
+            "test@example.org.uk",
+        );
+
+        // Known provider with partial segment → use known domain, not co.uk
+        assert.equal(
+            checkTLD("test@gmail.co", ["co.uk"], ["gmail.com", "yahoo.com"]),
+            "test@gmail.com",
+        );
+        assert.equal(
+            checkTLD("test@yahoo.co", ["co.uk"], ["gmail.com", "yahoo.com"]),
+            "test@yahoo.com",
+        );
+
+        // No partial match → fall back to appending tlds[0]
+        assert.equal(
+            checkTLD("test@example.xyz", ["co.uk", "com"]),
+            "test@example.xyz.co.uk",
+        );
+
+        // No TLD at all with a multi-part TLD list
+        assert.equal(checkTLD("test@example", ["co.uk"]), "test@example.co.uk");
+    });
 });

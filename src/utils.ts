@@ -72,27 +72,50 @@ export const getTLD = (domain?: string): string | undefined => {
 };
 
 export const validateTLD = (tld: string, validTlds: string[]): boolean => {
-    return tld.split(".").reduce<boolean>((acc, tldPart) => {
-        return acc && validTlds.indexOf(tldPart) > -1;
-    }, true);
+    return validTlds.indexOf(tld) > -1;
 };
 
 /**
  * Check if the last part of the domain is missing a TLD
  * @param email Email address
- * @param validTlds List of TLDs to check against
+ * @param tlds List of TLDs to check against
+ * @param knownDomains Optional list of known email domains (e.g. ["gmail.com"]) used to
+ *   avoid incorrect multi-part TLD completions for well-known providers
  * @returns Suggested email address with valid TLD if there's missing a TLD
  */
-export const checkTLD = (email: string, tlds: string[]): string => {
+export const checkTLD = (
+    email: string,
+    tlds: string[],
+    knownDomains: string[] = [],
+): string => {
     const [username, domain] = email.split("@");
     const tld = getTLD(domain);
+    const domainBase = domain.split(".")[0];
+
     if (!tld) {
-        return `${username}@${domain.split(".")[0]}.${tlds[0]}`;
+        return `${username}@${domainBase}.${tlds[0]}`;
     }
 
-    if (!validateTLD(tld, tlds)) {
-        return `${username}@${domain}.${tlds[0]}`;
+    if (validateTLD(tld, tlds)) {
+        return "";
     }
 
-    return "";
+    // If the base name matches a known provider, suggest that known domain rather than
+    // a multi-part TLD completion (e.g. gmail.co → gmail.com, not gmail.co.uk).
+    const knownDomain = knownDomains.find(
+        (d) => d.split(".")[0] === domainBase,
+    );
+    if (knownDomain) {
+        return `${username}@${knownDomain}`;
+    }
+
+    // If the current TLD is a leading segment of a valid multi-part TLD, replace it.
+    // e.g. tld="co" with tlds=["co.uk"] → strip "co", prepend "co.uk".
+    const partialMatch = tlds.find((t) => t.startsWith(`${tld}.`));
+    if (partialMatch) {
+        const base = domain.slice(0, domain.length - tld.length - 1);
+        return `${username}@${base}.${partialMatch}`;
+    }
+
+    return `${username}@${domain}.${tlds[0]}`;
 };
