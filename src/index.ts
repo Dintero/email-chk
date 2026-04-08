@@ -99,7 +99,7 @@ export const EmailChk = (configuration?: EmailChkConfig) => {
         }
 
         if (opt?.checkMissingTLD) {
-            return checkTLD(email, opt.checkMissingTLD);
+            return checkTLD(email, opt.checkMissingTLD, config.domains);
         }
 
         return "";

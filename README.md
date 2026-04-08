@@ -14,6 +14,24 @@ const emailChk = EmailChk({
 const email = "username@gmain.com";
 const result = emailChk(email); // username@gmail.com
 ```
+TLD checking with `checkMissingTLD`:
+```ts
+import { EmailChk } from '@dintero/email-chk';
+
+const emailChk = EmailChk();
+
+// Suggests a TLD when one is missing or unrecognised
+emailChk('username@example', { checkMissingTLD: ['com'] });
+// → username@example.com
+
+// Supports multi-part TLDs such as co.uk
+emailChk('username@example.co', { checkMissingTLD: ['co.uk'] });
+// → username@example.co.uk
+
+// Known providers are resolved to their correct domain instead
+emailChk('username@gmail.co', { checkMissingTLD: ['co.uk'] });
+// → username@gmail.com  (gmail is in the default domains list)
+```
 React:
 ```tsx
 import { EmailChk } from '@dintero/email-chk';
