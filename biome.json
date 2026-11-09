@@ -6,7 +6,7 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": true
+            "preset": "recommended"
         }
     },
     "formatter": {
@@ -29,6 +29,11 @@
         "formatter": {
             "indentWidth": 4,
             "trailingCommas": "none"
+        }
+    },
+    "yaml": {
+        "formatter": {
+            "indentWidth": 2
         }
     }
 }
