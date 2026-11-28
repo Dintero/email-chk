@@ -5,6 +5,7 @@ Check if an email address contains a typo and suggest the correct one.
 ## Usage
 
 Conventional Typescript:
+
 ```ts
 import { EmailChk } from "@dintero/email-chk";
 
@@ -17,6 +18,7 @@ const email = "username@gmain.com";
 const result = emailChk(email); // username@gmail.com
 ```
 TLD checking with `checkMissingTLD`:
+
 ```ts
 import { EmailChk } from "@dintero/email-chk";
 
@@ -35,6 +37,7 @@ emailChk("username@gmail.co", { checkMissingTLD: ["co.uk"] });
 // → username@gmail.com  (gmail is in the default domains list)
 ```
 React:
+
 ```tsx
 import { EmailChk } from "@dintero/email-chk";
 
